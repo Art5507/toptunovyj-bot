@@ -1,6 +1,9 @@
 import discord
 from discord import app_commands
 import config
+import aiohttp
+import json
+import random
 
 class aclient(discord.Client):
     def __init__(self):
@@ -47,5 +50,25 @@ async def self(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
+@tree.command(name = "random", description = "Отправляет рандомное число")
+async def self(interaction: discord.Interaction):
+    random_number = random.randint(1, 999)
+    await interaction.response.send_message(f"{random_number}")
+
+@tree.command(name = "coin", description = "Орёл или решка?")
+async def self(interaction: discord.Interaction):
+    words_list = ["Орёл", "Решка"]
+    random_word = random.choice(words_list)
+    await interaction.response.send_message(f"{random_word}")
+
+@tree.command(name = "prediction2", description = "Команда для Twitch прогнозов: Какое число выпадет в конце стрима? Режим 1 и 2")
+async def self(interaction: discord.Interaction):
+    random_number = random.randint(1, 2)
+    await interaction.response.send_message(f"{random_number}")
+
+@tree.command(name = "prediction3", description = "Команда для Twitch прогнозов: Какое число выпадет в конце стрима? Режим 1,2,3")
+async def self(interaction: discord.Interaction):
+    random_number = random.randint(1, 3)
+    await interaction.response.send_message(f"{random_number}")
 
 client.run(config.TOKEN)
