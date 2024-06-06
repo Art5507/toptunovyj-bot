@@ -42,7 +42,7 @@ async def self(interaction: discord.Interaction):
 async def self(interaction: discord.Interaction):
     embed = discord.Embed(
         colour=discord.Colour.teal(),
-        description="Информация о боте находится тут: https://bit.ly/TptnBot",
+        description="Информация о боте находится тут: https://tptnbot.vercel.app/",
         title="Помощь"
     )
 
