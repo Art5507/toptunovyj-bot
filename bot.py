@@ -1,8 +1,6 @@
 import discord
 from discord import app_commands
 import config
-import aiohttp
-import json
 import random
 
 class aclient(discord.Client):
