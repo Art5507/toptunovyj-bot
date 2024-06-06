@@ -34,10 +34,6 @@ async def self(interaction: discord.Interaction):
 async def self(interaction: discord.Interaction):
     await interaction.response.send_message(f"**Лон** ты скуф <:GAGAGA:1247570395347816538>")
 
-@tree.command(name = "murg", description = "Пишет Мург купи сталкер")
-async def self(interaction: discord.Interaction):
-    await interaction.response.send_message(f"**Мург** купи сталкер <:PLEASE:1246757757760180287>")
-
 @tree.command(name = "help", description = "Информация о боте")
 async def self(interaction: discord.Interaction):
     embed = discord.Embed(
