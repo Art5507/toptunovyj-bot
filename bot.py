@@ -13,7 +13,7 @@ class aclient(discord.Client):
         if not self.synced:
             await tree.sync()
             self.synced = True
-        print(f"We have logged in as {self.user}.")
+        print(f"Мы вошли в систему как {self.user}.")
 
 client = aclient()
 tree = app_commands.CommandTree(client)
@@ -64,5 +64,45 @@ async def self(interaction: discord.Interaction):
 async def self(interaction: discord.Interaction):
     random_number = random.randint(1, 3)
     await interaction.response.send_message(f"{random_number}")
+
+@tree.command(name = "afk", description = "Перейти в AFK режим")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} ушел в афк")
+
+@tree.command(name = "gn", description = "Перейти в режим сна")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} ушел спать :bed:")
+
+@tree.command(name = "brb", description = "Перейти в режим скоро вернусь")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} скоро вернется :hourglass_flowing_sand:")
+
+@tree.command(name = "poop", description = "Перейти в режим какания")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} сейчас какает :toilet:")
+
+@tree.command(name = "shower", description = "Перейти в режим принятия душа")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} принимает душ :shower:")
+
+@tree.command(name = "food", description = "Перейти в режим приема пищи")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} сейчас ест :bento:")
+
+@tree.command(name = "lurk", description = "Перейти в режим скрытности")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} сейчас скрывается :busts_in_silhouette:")
+
+@tree.command(name = "work", description = "Перейти в рабочий режим")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} работает :briefcase:")
+
+@tree.command(name = "study", description = "Перейти в режим обучения")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} сейчас учится :books:")
+
+@tree.command(name = "nap", description = "Перейти в режим дремоты")
+async def self(interaction: discord.Interaction):
+    await interaction.response.send_message(f"{interaction.user.mention} сейчас дремлет :sleeping:")
 
 client.run(config.TOKEN)
