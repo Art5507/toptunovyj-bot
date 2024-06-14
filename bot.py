@@ -119,9 +119,9 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 async def self(interaction: discord.Interaction, количество:int):
     await interaction.channel.purge(limit=количество)
     embed = discord.Embed(
-    colour=discord.Colour.teal(),
-    description= f":white_check_mark: Удалено **{количество}** сообщений"
-)
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: Удалено **{количество}** сообщений"
+    )
 
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
@@ -130,9 +130,9 @@ async def self(interaction: discord.Interaction, количество:int):
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина:str):
     await участник.kick(reason=причина)
     embed = discord.Embed(
-    colour=discord.Colour.teal(),
-    description= f":white_check_mark: **{участник}** был выгнан по причине: `{причина}`"
-)
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: **{участник}** был выгнан по причине: `{причина}`"
+    )
 
     await interaction.response.send_message(embed=embed)
 
@@ -141,9 +141,9 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина:str):
     await участник.ban(reason=причина, delete_message_days=1)
     embed = discord.Embed(
-    colour=discord.Colour.teal(),
-    description= f":white_check_mark: **{участник}** был забанен по причине: `{причина}`"
-)
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: **{участник}** был забанен по причине: `{причина}`"
+    )
 
     await interaction.response.send_message(embed=embed)
 
@@ -153,9 +153,9 @@ async def self(interaction: discord.Interaction, участник:discord.Member
     delta = timedelta(minutes=минуты)
     await участник.timeout(delta, reason=причина)
     embed = discord.Embed(
-    colour=discord.Colour.teal(),
-    description= f":white_check_mark: **{участник}** был отправлен в мут на {минуты} минуты по причине: `{причина}`"
-)
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: **{участник}** был отправлен в мут на {минуты} минуты по причине: `{причина}`"
+    )
 
     await interaction.response.send_message(f"{участник.mention}", embed=embed)
 
@@ -163,10 +163,22 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 @app_commands.default_permissions(moderate_members=True)
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина:str):
     embed = discord.Embed(
-    colour=discord.Colour.teal(),
-    description= f":white_check_mark: **{участник}** получил предупреждение по причине: `{причина}`"
-)
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: **{участник}** получил предупреждение по причине: `{причина}`"
+    )
 
     await interaction.response.send_message(f"{участник.mention}", embed=embed)
+
+@tree.command(name = "embed", description = "Создать Embed")
+@app_commands.default_permissions(manage_messages=True)
+async def self(interaction: discord.Interaction, название:str, описание:str):
+    embed = discord.Embed(
+        colour=discord.Colour.teal(),
+        description=f"{описание}",
+        title=f"{название}"
+    )
+
+    await interaction.channel.send(embed=embed)
+    await interaction.response.send_message(f":white_check_mark: Сообщение отправлено", ephemeral=True)
 
 client.run(config.TOKEN)
