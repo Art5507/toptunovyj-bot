@@ -12,6 +12,7 @@ class aclient(discord.Client):
         self.synced = False
     
     async def on_ready(self):
+        await client.change_presence(activity=discord.Game(name="/help"))
         await self.wait_until_ready()
         if not self.synced:
             await tree.sync()
