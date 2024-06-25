@@ -8,10 +8,11 @@ from datetime import timedelta
 # Синхронизация команд
 class aclient(discord.Client):
     def __init__(self):
-        super().__init__(intents=discord.Intents.default() )
+        super().__init__(intents=discord.Intents.all() )
         self.synced = False
     
     async def on_ready(self):
+        await client.change_presence(activity=discord.Game(name="/help")) # Статус бота
         await self.wait_until_ready()
         if not self.synced:
             await tree.sync()
@@ -47,9 +48,9 @@ async def self(interaction: discord.Interaction):
 async def self(interaction: discord.Interaction):
     embed = discord.Embed(
         colour=discord.Colour.teal(),
-        description="Информация о боте находится тут: https://tptnbot.vercel.app/",
-        title="Помощь"
+        description=f"## Справка Топтунового бота\n### Команды\nВведите `/`, чтобы просмотреть список команд или [просмотрите документацию](https://tptnbot.vercel.app/docs/category/%D1%82%D0%BE%D0%BF%D1%82%D1%83%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9-%D0%B1%D0%BE%D1%82).\n### Документация\nУзнайте о том, как использовать Топтунового бота на вашем сервере. [Просмотрите документацию](https://tptnbot.vercel.app/docs/category/%D1%82%D0%BE%D0%BF%D1%82%D1%83%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9-%D0%B1%D0%BE%D1%82).\n### Сервер поддержки\nУ вас возникла проблема, есть предложение или вы просто хотите получать уведомления о новых возможностях? [Вступайте в наш Discord сервер](https://discord.gg/BCp784Gr3x).",
     )
+    embed.set_thumbnail(url="https://i.imgur.com/LkSe8du.jpeg")
 
     await interaction.response.send_message(embed=embed)
 
@@ -244,34 +245,57 @@ async def self(interaction: discord.Interaction, участник:discord.Member
     await interaction.response.send_message(embed=embed1)
     await участник.send(embed=embed2)
 
+# Авто-выдача ролей
+@client.event
+async def on_member_join(member=discord.Member):
+    role = discord.utils.get(member.guild.roles, id=1255106807760814080) # Сервер Топтуновый бот
+    await member.add_roles(role)
+
+# Удаление сообщения и отправка другого сообщения в личные сообщения при добавлении реакции ✅ в канале ➕┃доп-функции на сервере Топтуновый бот
+@client.event
+async def on_reaction_add(reaction=discord.Reaction, user=discord.User):
+    user2 = reaction.message.author
+    embed = discord.Embed(
+        colour=discord.Colour.teal(),
+        description= f":white_check_mark: Ваш запрос на добавление функции подтвержден"
+    )
+
+    if reaction.emoji == "✅" and reaction.message.channel.id == 1255104075356307566:
+         await reaction.message.delete()
+         await user2.send(embed=embed)
+
 # Создание новой ветки и добавление реакций 👍👎 на новые сообщения
 @client.event
 async def on_message(message=discord.Message):
-    if message.channel.id == 1212026711311392809: # Топтуновое (картинки)
+    if message.channel.id == 1255095910916952086: # Сервер Топтуновый бот (обновления)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E") 
-    if message.channel.id == 1239197262748450908: # Топтуновое (ирл)
+    if message.channel.id == 1212026711311392809: # Сервер Топтуновое (картинки)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E") 
-    if message.channel.id == 1242114997874589817: # Топтуновое (клипы)
+    if message.channel.id == 1239197262748450908: # Сервер Топтуновое (ирл)
+      await message.create_thread(name="Комментарии")
+      await message.add_reaction("\U0001F44D")
+      await message.add_reaction("\U0001F44E") 
+    if message.channel.id == 1242114997874589817: # Сервер Топтуновое (клипы)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
-    if message.channel.id == 1209028289407090728: # tipo_Lon (картинки)
+    if message.channel.id == 1209028289407090728: # Сервер tipo_Lon (картинки)
       await message.create_thread(name="Комментарии") 
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
-    if message.channel.id == 1208879658494591027: # tipo_Lon (ирл)
+    if message.channel.id == 1208879658494591027: # Сервер tipo_Lon (ирл)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
-    if message.channel.id == 1208840805205414019: # tipo_Lon (творчество)
+    if message.channel.id == 1208840805205414019: # Сервер tipo_Lon (творчество)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
-    if message.channel.id == 1208840805205414018: # tipo_Lon (музыка)
+    if message.channel.id == 1208840805205414018: # Сервер tipo_Lon (музыка)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
