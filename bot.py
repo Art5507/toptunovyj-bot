@@ -29,7 +29,7 @@ async def self(interaction: discord.Interaction):
     await interaction.response.send_message(f":ping_pong: Понг! Задержка {round(client.latency * 1000)}ms")
 
 # Команда /explosion
-@tree.command(name = "explosion", description = "Взорвать Арта5507")
+@tree.command(name = "explosion", description = "Взорвать автора бота")
 async def self(interaction: discord.Interaction):
     await interaction.response.send_message(f"**Art5507** [Explosion](https://media.discordapp.net/attachments/1234090523363377182/1245811443748704379/Clipchamp-ezgif.com-crop.gif?ex=665a1bd2&is=6658ca52&hm=bd48c30c4bcf7dfb7ed99d3f5f0529429961d564a6c97746c8ce0ee4a07c55c6&)")
 
@@ -41,7 +41,7 @@ async def self(interaction: discord.Interaction):
 # Команда /lon
 @tree.command(name = "lon", description = "Пишет Лон ты скуф")
 async def self(interaction: discord.Interaction):
-    await interaction.response.send_message(f"**Лон** ты скуф <:GAGAGA:1247570395347816538>")
+    await interaction.response.send_message(f"**Лон** ты скуф <:GAGAGA:1268156218124533770>")
 
 # Команда /help
 @tree.command(name = "help", description = "Информация о боте")
@@ -56,9 +56,9 @@ async def self(interaction: discord.Interaction):
     await interaction.response.send_message(embed=embed)
 
 # Команда /random
-@tree.command(name = "random", description = "Отправляет рандомное число от 1 до 999")
-async def self(interaction: discord.Interaction):
-    random_number = random.randint(1, 999)
+@tree.command(name = "random", description = "Отправляет случайное число в зависимости от параметров")
+async def self(interaction: discord.Interaction, минимальное: int, максимальное: int):
+    random_number = random.randint(минимальное, максимальное)
     await interaction.response.send_message(f"{random_number}")
 
 # Команда /coin
@@ -66,19 +66,7 @@ async def self(interaction: discord.Interaction):
 async def self(interaction: discord.Interaction):
     words_list = ["Орёл", "Решка"]
     random_word = random.choice(words_list)
-    await interaction.response.send_message(f"{random_word}")
-
-# Команда /prediction2
-@tree.command(name = "prediction2", description = "Команда для Twitch прогнозов: Какое число выпадет в конце стрима? Режим 1 и 2")
-async def self(interaction: discord.Interaction):
-    random_number = random.randint(1, 2)
-    await interaction.response.send_message(f"{random_number}")
-
-# Команда /prediction3
-@tree.command(name = "prediction3", description = "Команда для Twitch прогнозов: Какое число выпадет в конце стрима? Режим 1,2,3")
-async def self(interaction: discord.Interaction):
-    random_number = random.randint(1, 3)
-    await interaction.response.send_message(f"{random_number}")
+    await interaction.response.send_message(f":coin: **{random_word}**")
 
 # Команда /afk
 @tree.command(name = "afk", description = "Перейти в AFK режим")
@@ -99,7 +87,7 @@ async def self(interaction: discord.Interaction, сообщение: str = None)
 async def self(interaction: discord.Interaction, сообщение: str = None):
     if сообщение == None:
         сообщение = "(нет сообщения)"
-    await interaction.response.send_message(f"<a:ppHop:1256667376599171113> {interaction.user.mention} скоро вернется: {сообщение}")
+    await interaction.response.send_message(f"<a:ppHop:1268155373500497920> {interaction.user.mention} скоро вернется: {сообщение}")
 
 # Команда /poop
 @tree.command(name = "poop", description = "Перейти в режим какания")
@@ -163,7 +151,7 @@ async def self(interaction: discord.Interaction, сообщение: str = None)
 @tree.command(name = "tuck", description = "Уложить человека спать")
 async def self(interaction: discord.Interaction, участник:discord.Member, *, смайлик: str = None):
     if смайлик == None:
-        смайлик = "<:Okay:1252987035539603528>"
+        смайлик = "<:Okay:1268155937026478126>"
     await interaction.response.send_message(f"Вы уложили {участник.mention} спать {смайлик} :point_right: :bed:")
 
 # Команда /hug
@@ -175,29 +163,28 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 @tree.command(name = "clear", description = "Очистить чат")
 @app_commands.default_permissions(manage_messages=True)
 async def self(interaction: discord.Interaction, количество:int):
-    await interaction.channel.purge(limit=количество)
     embed = discord.Embed(
         colour=discord.Colour.teal(),
         description= f":white_check_mark: Удалено **{количество}** сообщений"
     )
-
     await interaction.response.send_message(embed=embed, ephemeral=True)
+    await interaction.channel.purge(limit=количество)
 
 # Команда /kick
 @tree.command(name = "kick", description = "Выгнать участника")
 @app_commands.default_permissions(kick_members=True)
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина: str = None):
     if причина == None:
-        причина = "(причина не указана)"
+        причина = "Отсутствует"
     await участник.kick(reason=причина)
     embed1 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":white_check_mark: **{участник}** был выгнан по причине: `{причина}`"
+        description= f"### :white_check_mark: {участник.mention} был выгнан\nПричина: `{причина}`"
     )
     guild_name = interaction.guild.name
     embed2 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":door: Вы были изгнаны из сервера **{guild_name}** по причине: `{причина}`"
+        description= f"### :door: Вы были изгнаны\nСервер: **{guild_name}**\nПричина: `{причина}`"
     )
 
     await interaction.response.send_message(embed=embed1)
@@ -208,16 +195,16 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 @app_commands.default_permissions(ban_members=True)
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина: str = None):
     if причина == None:
-        причина = "(причина не указана)"
+        причина = "Отсутствует"
     await участник.ban(reason=причина, delete_message_days=1)
     embed1 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":white_check_mark: **{участник}** был забанен по причине: `{причина}`"
+        description= f"### :white_check_mark: {участник.mention} был забанен\nПричина: `{причина}``"
     )
     guild_name = interaction.guild.name
     embed2 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":no_entry_sign: Вы были забанены на сервере **{guild_name}** по причине: `{причина}`"
+        description= f"### :no_entry_sign: Вы были забанены на сервере\nСервер: **{guild_name}**\nПричина: `{причина}`"
     )
 
     await interaction.response.send_message(embed=embed1)
@@ -228,17 +215,17 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 @app_commands.default_permissions(moderate_members=True)
 async def self(interaction: discord.Interaction, участник:discord.Member, минуты: int, причина: str = None):
     if причина == None:
-        причина = "(причина не указана)"
+        причина = "Отсутствует"
     delta = timedelta(minutes=минуты)
     await участник.timeout(delta, reason=причина)
     embed1 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":white_check_mark: **{участник}** был отправлен в мут на {минуты} минуты по причине: `{причина}`"
+        description= f"### :white_check_mark: {участник.mention} был отправлен в мут на {минуты} минуты\nПричина: `{причина}`"
     )
     guild_name = interaction.guild.name
     embed2 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":clock1: Вы были отправлены в мут на сервере **{guild_name}** по причине: `{причина}`"
+        description= f"### :clock1: Вы были отправлены в мут\nСервер: **{guild_name}**\nПричина: `{причина}`"
     )
 
     await interaction.response.send_message(embed=embed1)
@@ -249,15 +236,15 @@ async def self(interaction: discord.Interaction, участник:discord.Member
 @app_commands.default_permissions(moderate_members=True)
 async def self(interaction: discord.Interaction, участник:discord.Member, *, причина: str = None):
     if причина == None:
-        причина = "(причина не указана)"
+        причина = "Отсутствует"
     embed1 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":white_check_mark: **{участник}** получил предупреждение по причине: `{причина}`"
+        description= f"### :white_check_mark: {участник.mention} получил предупреждение\nПричина: `{причина}`"
     )
     guild_name = interaction.guild.name
     embed2 = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":warning: Вы получили предупреждение на сервере **{guild_name}** по причине: `{причина}`"
+        description= f"### :warning: Вы получили предупреждение\nСервер: **{guild_name}**\nПричина: `{причина}`"
     )
 
     await interaction.response.send_message(embed=embed1)
@@ -275,7 +262,7 @@ async def on_reaction_add(reaction=discord.Reaction, user=discord.User):
     user2 = reaction.message.author
     embed = discord.Embed(
         colour=discord.Colour.teal(),
-        description= f":white_check_mark: Ваш запрос на добавление функции подтвержден"
+        description= f"**:white_check_mark: Функция скоро будет добавлена на ваш сервер**"
     )
 
     if reaction.emoji == "✅" and reaction.message.channel.id == 1255104075356307566:
@@ -289,6 +276,10 @@ async def on_message(message=discord.Message):
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E") 
+    if message.channel.id == 1255098023361642526: # Сервер Топтуновый бот (статус)
+      await message.create_thread(name="Комментарии")
+      await message.add_reaction("\U0001F44D")
+      await message.add_reaction("\U0001F44E") 
     if message.channel.id == 1212026711311392809: # Сервер Топтуновое (картинки)
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
@@ -297,10 +288,6 @@ async def on_message(message=discord.Message):
       await message.create_thread(name="Комментарии")
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E") 
-    if message.channel.id == 1242114997874589817: # Сервер Топтуновое (клипы)
-      await message.create_thread(name="Комментарии")
-      await message.add_reaction("\U0001F44D")
-      await message.add_reaction("\U0001F44E")
     if message.channel.id == 1209028289407090728: # Сервер tipo_Lon (картинки)
       await message.create_thread(name="Комментарии") 
       await message.add_reaction("\U0001F44D")
@@ -315,10 +302,6 @@ async def on_message(message=discord.Message):
       await message.add_reaction("\U0001F44E")
     if message.channel.id == 1208840805205414018: # Сервер tipo_Lon (музыка)
       await message.create_thread(name="Комментарии")
-      await message.add_reaction("\U0001F44D")
-      await message.add_reaction("\U0001F44E")
-    if message.channel.id == 1256572605088006144: # Сервер tipo_Lon (клипы)
-      await message.create_thread(name="Комментарии") 
       await message.add_reaction("\U0001F44D")
       await message.add_reaction("\U0001F44E")
 
